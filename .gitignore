@@ -1,0 +1,49 @@
+### CS-Cart directories
+images/*
+var/*
+app/addons/*/certificates/*
+app/payments/*/certificates/*
+
+### Massimo's local
+design/themes/royal/config.codekit3
+design/themes/royal/_STATIC_/docs/config.php
+
+### CS-Cart files
+app/schemas/Tygh/Helpdesk.php
+app/schemas/literal_converter/utf8.php
+local_conf.php
+sd*.sh
+sp*.php
+.htaccess*
+
+### Adapt multi environment files | https://confluence.isobar.ch/display/DCSSOL/Adapting+Setup+for+Multi-Environment
+init.sql
+
+### Composer directories & library files
+vendor/*
+app/addons/*/vendor
+phinx.yml
+phpunit.xml
+
+### Obsolete backup & server files
+plesk_default/*
+cgi-bin/*
+*.bak
+*.DS_Store*
+*.sublime*
+*.sw*
+*~
+*.kate-swp
+.idea/
+
+### Test scripts
+phpinfo.php
+test_*
+
+### Node libs
+/node_modules/
+
+### Robots
+robots.txt
+
+docker-compose.yml

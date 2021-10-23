@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<addon scheme="3.0">
+    <id>dibsy_integration</id>
+    <version>1.0.1</version>
+    <dependencies/>
+    <supplier>Slakha team</supplier>
+    <default_language>en</default_language>
+    <priority>100</priority>
+    <auto_install>MULTIVENDOR,ULTIMATE</auto_install>
+    <status>active</status>
+    <functions>
+        <item for="install">fn_dibsy_integration_install</item>
+        <item for="uninstall">fn_dibsy_integration_uninstall</item>
+    </functions>
+    <language_variables>
+        <item lang="en" id="dibsy_integration.addon_is_disabled_notice">add-on is disabled so you can't configure this payment method</item>
+    </language_variables>
+</addon>
