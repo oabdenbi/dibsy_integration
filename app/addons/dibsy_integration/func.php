@@ -23,7 +23,7 @@ function fn_dibsy_integration_install()
         [
             'processor'          => 'dibsy',
             'processor_script'   => 'dibsy.php',
-            'admin_template'     => 'disby_integration.tpl',
+            'admin_template'     => 'dibsy_integration.tpl',
             'callback'           => 'N',
             'type'               => 'P',
             'addon'              => 'dibsy_integration',

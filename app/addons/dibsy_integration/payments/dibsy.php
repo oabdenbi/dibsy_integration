@@ -17,23 +17,28 @@ if (defined('PAYMENT_NOTIFICATION')) {
 
     $payment_id = db_get_field('SELECT payment_id FROM ?:orders WHERE order_id = ?i', $order_id);
     $processor_data = fn_get_payment_method_data((int) $payment_id);
+    $payment_info = db_get_field("SELECT data FROM ?:order_data WHERE order_id = ?i AND type = 'P'", $order_id);
+    if (!empty($payment_info)) {
+        $payment_info = unserialize(fn_decrypt_text($payment_info));
+    }
 
     $extra = [
         'headers' => [
-            'Content-Type: application/json',
             'Authorization: Bearer ' . $processor_data['processor_params']['secret_key'],
         ],
     ];
 
-    $payment_gateway_api_url = "{$processor_data['processor_params']['authorization_url']}";
+    $payment_info_gateway_api_url = "https://api.dibsy.one/v1/payments/" . $payment_info['transaction_id'];
 
     $response = Http::get(
-        $payment_gateway_api_url . 'test_tr_hboexzpfay',
+        $payment_info_gateway_api_url,
+        [],
         $extra
     );
 
     $response = json_decode($response, true);
-    $sv = "";
+    fn_finish_payment($order_id, $response);
+    fn_order_placement_routines('route', $order_id);
 
 } else {
     $payment_gateway_api_url = "{$processor_data['processor_params']['authorization_url']}";
@@ -50,10 +55,10 @@ if (defined('PAYMENT_NOTIFICATION')) {
 
     $payment_request_data = [
         'description' => $processor_data['processor_params']['order_prefix'] . $order_info['order_id'],
-        'amount' => 343,
+        'amount' => $order_info['total'],
         'metadata'=> [
             'product' =>  $order_info['products'],
-            'consumer_id' => '434'
+            'consumer_id' => $order_info['user_id']
         ],
         'customer' => [
             'name' => $order_info['firstname'] . ' ' . $order_info['lastname'],
@@ -72,13 +77,13 @@ if (defined('PAYMENT_NOTIFICATION')) {
     $response_data = json_decode($response, true);
     $checkout_url = $response_data['_links']['checkout']['href'];
     if ($checkout_url) {
-        fn_create_payment_form($checkout_url, [], 'dibsy', true, 'GET');
-        $pp_response = [
-            'order_status'   => 'O',
-            'transaction_id' => $response_data['id'],
+        $dibsy_response = [
+            'order_status'   => $response_data['status'],
+            'transaction_id' => $response_data['id']
         ];
         fn_change_order_status($order_id, 'O');
-        fn_update_order_payment_info($order_id, $pp_response);
+        fn_update_order_payment_info($order_id, $dibsy_response);
+        fn_create_payment_form($checkout_url, [], 'dibsy', true, 'GET');
     }
 }
 
