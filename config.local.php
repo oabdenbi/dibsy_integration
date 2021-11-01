@@ -31,9 +31,9 @@ if (!defined('CONSOLE')) {
  * Database connection options
  */
 $config['db_host'] = 'localhost';
-$config['db_name'] = 'cscartplugin';
+$config['db_name'] = 'dibsy';
 $config['db_user'] = 'root';
-$config['db_password'] = '';
+$config['db_password'] = 'password';
 
 $config['database_backend'] = 'mysqli';
 
@@ -55,11 +55,11 @@ $config['table_prefix'] = 'cscart_';
  */
 
 // Host and directory where software is installed on no-secure server
-$config['http_host'] = 'cscartplugin.local';
+$config['http_host'] = 'dibsy.local';
 $config['http_path'] = '';
 
 // Host and directory where software is installed on secure server
-$config['https_host'] = 'cscartplugin.local';
+$config['https_host'] = 'dibsy.local';
 $config['https_path'] = '';
 
 /*
@@ -78,7 +78,7 @@ $config['tweaks'] = array (
     // Whether to remove any javascript code from description and name of product, category, etc.
     // Auto - false for ULT, true for MVE.
     'sanitize_user_html' => 'auto',
-    'anti_csrf' => true, // protect forms from CSRF attacks
+    'anti_csrf' => false, // protect forms from CSRF attacks
     'disable_block_cache' => false, // used to disable block cache
     'disable_localizations' => true, // Disable Localizations functionality
     'disable_dhtml' => false, // Disable Ajax-based pagination and Ajax-based "Add to cart" button
@@ -146,7 +146,8 @@ $config['storage'] = array(
     'downloads' => array(
         'prefix' => 'downloads',
         'secured' => true,
-        'dir' => $config['dir']['var']
+        'dir' => $config['dir']['var'],
+        'cdn' => true
     ),
     'assets' => array(
         'dir' => & $config['dir']['cache_misc'],
@@ -155,7 +156,8 @@ $config['storage'] = array(
     ),
     'custom_files' => array(
         'dir' => & $config['dir']['var'],
-        'prefix' => 'custom_files'
+        'prefix' => 'custom_files',
+        'cdn' => true
     )
 );
 

@@ -29,6 +29,22 @@ function fn_dibsy_integration_install()
             'addon'              => 'dibsy_integration',
         ]
     );
+    if ($db->getField('SELECT processor_id FROM ?:payment_processors WHERE processor_script = ?s', 'dibsy_component.php')) {
+        return;
+    }
+
+    $db->query(
+        'INSERT INTO ?:payment_processors ?e',
+        [
+            'processor'          => 'dibsy_component',
+            'processor_script'   => 'dibsy_component.php',
+            'admin_template'     => 'dibsy_integration.tpl',
+            'processor_template' => 'addons/dibsy_integration/views/orders/components/payments/dibsy.tpl',
+            'callback'           => 'N',
+            'type'               => 'P',
+            'addon'              => 'dibsy_integration',
+        ]
+    );
 }
 
 /**
